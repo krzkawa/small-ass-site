@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>512KB Retro Arcade — 600 Games</title>
+<meta name="description" content="600 retro mini-games in a single page that transfers under 512KB. Snake, Minesweeper, Tic-Tac-Toe, Tetris, and more.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  // Module scripts (and the dynamic import() every game relies on) are
+  // blocked by browsers when the page is opened as a file:// URL, which
+  // fails silently — the shell renders but clicking a game freezes with
+  // nothing shown. Warn loudly instead, using a plain non-module script
+  // so it still runs even when the module below cannot.
+  if (location.protocol === 'file:') {
+    document.addEventListener('DOMContentLoaded', () => {
+      const warning = document.createElement('div');
+      warning.style.cssText = 'background:#3a1414;color:#ff9a9a;padding:1em;text-align:center;font:14px monospace;border-bottom:2px solid #ff5566';
+      warning.innerHTML = 'This page was opened directly from disk (file://), which browsers block from loading game code.<br>' +
+        'Serve this folder over local HTTP instead, e.g.: <code>npx serve .</code> or <code>python3 -m http.server 8000</code>, then open the printed http://localhost address.';
+      document.body.prepend(warning);
+    });
+  }
+</script>
+</head>
+<body>
+<header>
+  <h1>512KB ARCADE<span class="cursor"></span></h1>
+  <div class="budget">
+    <b id="kb-used">0</b>KB<span class="meter" id="kb-meter"></span>512KB
+  </div>
+</header>
+
+<main>
+  <div class="controls">
+    <input id="search" type="search" placeholder="find a game..." aria-label="Search games">
+    <div id="chips" class="chips"></div>
+  </div>
+  <div id="games" class="grid-games"></div>
+</main>
+
+<footer>
+  600 games, one page, nothing downloaded until you click it.
+</footer>
+
+<div id="playview" class="playview hidden">
+  <div class="play-header">
+    <button id="back-btn">&larr; Back</button>
+    <h2 id="play-title"></h2>
+    <button id="restart-btn">Restart</button>
+  </div>
+  <div id="play-body" class="play-body"></div>
+</div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
